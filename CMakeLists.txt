@@ -8,7 +8,8 @@ set(CMAKE_CXX_STANDARD 14)
 add_subdirectory(external/glfw)
 add_subdirectory(external/glad)
 
-add_executable(B_WEngine src/main.cpp)
+add_executable(B_WEngine src/main.cpp
+)
 
 find_package(OpenGL REQUIRED)
 
