@@ -9,6 +9,8 @@ add_subdirectory(external/glfw)
 add_subdirectory(external/glad)
 
 add_executable(B_WEngine src/main.cpp
+        src/Shader.cpp
+        src/Shader.hpp
 )
 
 find_package(OpenGL REQUIRED)
