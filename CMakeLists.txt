@@ -11,6 +11,14 @@ add_subdirectory(external/glad)
 add_executable(B_WEngine src/main.cpp
         src/Shader.cpp
         src/Shader.hpp
+        src/Renderable.cpp
+        src/Renderable.hpp
+        src/Triangle.cpp
+        src/Triangle.hpp
+        src/Scene.cpp
+        src/Scene.hpp
+        src/ShaderSource.cpp
+        src/ShaderSource.hpp
 )
 
 find_package(OpenGL REQUIRED)

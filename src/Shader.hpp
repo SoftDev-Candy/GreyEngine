@@ -11,7 +11,7 @@ class Shader
 {
 public:
 //Build a shader program from the VertexShader as well as the FragmentShader SimpleStuff//
-Shader(const char* VertexShader , const char* FragmentShader);
+Shader(const char* VertexShader , const char* FragmentSrc);
 
 //make this Shader the active one basically we are using this one here..will call glUseProgram(m_id)//
     void bind()const;
