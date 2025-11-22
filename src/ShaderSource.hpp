@@ -4,12 +4,12 @@
 
 #ifndef B_WENGINE_SHADERSOURCE_HPP
 #define B_WENGINE_SHADERSOURCE_HPP
+extern const char* VertexShaderSource;
+extern const char* FragmentShaderSource;
 
 class ShaderSource
 {
 public:
-    extern const char* VertexSourceShader;
-    extern const char* FragementSourceShader;
 
 };
 

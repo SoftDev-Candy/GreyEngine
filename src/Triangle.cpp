@@ -6,7 +6,7 @@
 #include "ShaderSource.hpp"
 
 
-Triangle::Triangle() : shader(VertexShaderSource , FragmentShaderSource)
+Triangle::Triangle() : shader(VertexShaderSource,FragmentShaderSource)
 {
     //MAKE A TRIANGLE HERE NOW //
     float vertices[] = {
@@ -36,7 +36,7 @@ Triangle::Triangle() : shader(VertexShaderSource , FragmentShaderSource)
     );
     glEnableVertexAttribArray(0);
 
-    glBindVertexArray(VAO);
+    glBindBuffer(GL_VERTEX_ARRAY,0);
     glBindVertexArray(0);
 
     //VAO IS COMPLETELY SETUP HERE//
