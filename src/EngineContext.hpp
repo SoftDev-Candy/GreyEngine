@@ -8,7 +8,6 @@
 #include "Shader.hpp"
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
-
 #include "Renderer.hpp"
 #include "Scene.hpp"
 
@@ -16,7 +15,8 @@ class EngineContext
 {
 
 public:
-void init();
+
+    void init();
     bool ShouldClose();
     void update();
     void Render();
@@ -25,7 +25,7 @@ void init();
 
 private:
 
-GLFWwindow* window;
+    GLFWwindow* window;
     Scene scene;
     Renderer renderer;
 

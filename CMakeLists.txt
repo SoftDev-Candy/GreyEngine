@@ -23,6 +23,8 @@ add_executable(B_WEngine src/main.cpp
         src/Renderer.hpp
         src/EngineContext.cpp
         src/EngineContext.hpp
+        src/Cube.cpp
+        src/Cube.hpp
 )
 
 find_package(OpenGL REQUIRED)
