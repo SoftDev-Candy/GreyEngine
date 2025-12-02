@@ -3,7 +3,7 @@ A basic C++ engine using OpenGL and GLFW built with CMake and CLion.
 
 ## Build
 ```
-git clone https://github.com/<yourname>/B_WEngine.git
+git clone https://github.com/SoftDev-Candy/GreyEngine.git
 cd B_WEngine
 mkdir build && cd build
 cmake ..
