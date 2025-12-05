@@ -26,6 +26,8 @@ Camera camera;
     void Terminate();
     void AddObject(Renderable* object);
 
+std::vector<SceneObject>& Getobject() ;
+
 private:
 
     GLFWwindow* window;
@@ -33,6 +35,5 @@ private:
     Renderer renderer;
 
 };
-
 
 #endif //B_WENGINE_ENGINECONTEXT_HPP

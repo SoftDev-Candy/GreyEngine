@@ -8,8 +8,8 @@ Shader::Shader(const char *VertexSrc, const char *FragmentSrc)
 {
 //We're Working here //
     // 1. compile the vertex and fragment shaders
-GLuint vs = CompileSingle(GL_VERTEX_SHADER ,VertexSrc);
-GLuint fs = CompileSingle(GL_FRAGMENT_SHADER ,FragmentSrc);
+    GLuint vs = CompileSingle(GL_VERTEX_SHADER ,VertexSrc);
+    GLuint fs = CompileSingle(GL_FRAGMENT_SHADER ,FragmentSrc);
 
     //2.Create a program and link them together here
     m_id = glCreateProgram();        // create empty program object

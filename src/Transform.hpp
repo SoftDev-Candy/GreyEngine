@@ -32,7 +32,6 @@ glm::mat4 GetMatrix()const
 
     return model;
 }
-
 };
 
 #endif //B_WENGINE_TRANSFORM_HPP

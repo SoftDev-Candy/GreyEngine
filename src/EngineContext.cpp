@@ -4,6 +4,8 @@
 
 #include "EngineContext.hpp"
 
+#include "../external/glfw/src/internal.h"
+
 static void framebuffer_size_callback(GLFWwindow* , int w , int h)
 {
     glViewport(0,0,w,h);
@@ -60,13 +62,49 @@ bool EngineContext::ShouldClose()
 void EngineContext::update()
 {
     glfwPollEvents();
+    if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
+    {
+        camera.position.z -= 0.05f;
+    }
+
+    if (glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
+    {
+        camera.position.z += 0.05f;
+    }
+
+    if (glfwGetKey(window,GLFW_KEY_A) == GLFW_PRESS)
+    {
+        camera.position.x -= 0.05f;
+    }
+
+    if (glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS)
+    {
+        camera.position.x += 0.05f;
+    }
+
+    if (glfwGetKey(window,GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        camera.position.y -= 0.05f;
+    }
+
+    if (glfwGetKey(window,GLFW_KEY_E) == GLFW_PRESS)
+    {
+        camera.position.y += 0.05f;
+    }
+
+    float time = static_cast<float>(glfwGetTime());
+    auto& obj = scene.GetObjects()[0];
+    obj.transform.rotation.y = time;
+
 }
 
 void EngineContext::Render()
 {
+
     renderer.Begin();
     renderer.RenderScene(scene ,camera);
     glfwSwapBuffers(window);//Swapping buffers to make colour come in front on the viewport.
+
 }
 
 void EngineContext::Terminate()
@@ -78,4 +116,9 @@ void EngineContext::Terminate()
 void EngineContext::AddObject(Renderable *object)
 {
     scene.CreateObject(object);
+}
+
+std::vector<SceneObject>& EngineContext::Getobject()
+{
+    return scene.GetObjects();
 }

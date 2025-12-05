@@ -8,7 +8,7 @@
 class Renderable
 {
 public:
-    virtual void Render(glm::mat4& mvp) = 0;
+    virtual void Render(const glm::mat4& mvp) = 0;
     virtual ~Renderable() = default;
 
 };

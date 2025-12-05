@@ -11,7 +11,7 @@ class Renderer
 public:
 
     void Begin();
-    void RenderScene(Scene& scene , Camera& camera);
+    void RenderScene(Scene& scene , Camera& cam);
 
 };
 

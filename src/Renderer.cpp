@@ -12,18 +12,17 @@ void Renderer::Begin()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);//Clearing the buffer to get the colour out.
 }
 
-void Renderer::RenderScene(Scene &scene , Camera& camera)
+void Renderer::RenderScene(Scene &scene , Camera& cam)
 {
-Camera& cam  = camera;
+    glm::mat4 view = cam.GetView();
+    glm::mat4 projection = cam.GetProjection(800.0f , 800.0f);
+
     for (auto& obj:scene.GetObjects())
     {
 
         if (obj.renderable)
         {
             glm::mat4 model = obj.transform.GetMatrix();
-            glm::mat4 view = cam.GetView();
-            glm::mat4 projection = cam.GetProjection(800.0f , 800.0f);
-
             glm::mat4 mvp = projection * view * model;
             obj.renderable->Render(mvp);
         }
