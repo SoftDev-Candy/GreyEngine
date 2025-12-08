@@ -3,8 +3,9 @@
 //
 
 #include "EngineContext.hpp"
-
-#include "../external/glfw/src/internal.h"
+#include"../external/imgui/imgui.h"
+#include"../external/imgui/imgui_impl_glfw.h"
+#include"../external/imgui/imgui_impl_opengl3.h"
 
 static void framebuffer_size_callback(GLFWwindow* , int w , int h)
 {
@@ -13,8 +14,7 @@ static void framebuffer_size_callback(GLFWwindow* , int w , int h)
 
 void EngineContext::init()
 {
-
-//Initialize GLFW
+    //Initialize GLFW
 
     if(!glfwInit())
     {
@@ -28,7 +28,7 @@ void EngineContext::init()
     glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
 
     //Create window here now if not created terminate that mfer
-     window = glfwCreateWindow(800,800,"B_WEngine",nullptr,nullptr);
+    window = glfwCreateWindow(800,800,"B_WEngine",nullptr,nullptr);
     if (window == NULL )
     {
         std::cout<<"Failed to create GLFW Window"<<std::endl;
@@ -52,6 +52,20 @@ void EngineContext::init()
     //Depth test dont worry about until it throws error//
     glEnable(GL_DEPTH_TEST);
 
+    //THIS IS IT FINALLY THE COSMIC CREATION OF THE MOTHERLAND STARDENBURDENHARDENBART DEAR IMGUI//
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; //Enabling Controller dont need it saw it sounds cool might keep it for now;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; //Enabling Keyboard
+
+ImGui::StyleColorsLight();
+
+    ImGui_ImplGlfw_InitForOpenGL(window,true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
+
+
 }
 
 bool EngineContext::ShouldClose()
@@ -62,6 +76,14 @@ bool EngineContext::ShouldClose()
 void EngineContext::update()
 {
     glfwPollEvents();
+
+    //Start the frame for imgui
+    ImGui_ImplGlfw_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui::NewFrame();
+    ImGui::ShowDemoWindow();
+
+    //Made the movement go up and down , side to side to like a rollercoaster
     if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
     {
         camera.position.z -= 0.05f;
@@ -96,6 +118,20 @@ void EngineContext::update()
     auto& obj = scene.GetObjects()[0];
     obj.transform.rotation.y = time;
 
+//Grab my object and add it to the UI so I can manipulate it //
+
+    ImGui::Begin("Object Transform");
+    //This is how we change the position
+    ImGui::DragFloat3("Position",&obj.transform.position.x);
+
+    //This is how we change the Rotation
+    ImGui::DragFloat3("Rotation",&obj.transform.rotation.x);
+
+    //This is how we scale it yo//
+    ImGui::DragFloat3("Scale",&obj.transform.scale.x);
+
+
+    ImGui::End();
 }
 
 void EngineContext::Render()
@@ -103,6 +139,10 @@ void EngineContext::Render()
 
     renderer.Begin();
     renderer.RenderScene(scene ,camera);
+    //Rendering IMGUI honestly should make a UImanager right after this I might need it
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
     glfwSwapBuffers(window);//Swapping buffers to make colour come in front on the viewport.
 
 }
@@ -111,6 +151,11 @@ void EngineContext::Terminate()
 {
     glfwDestroyWindow(window);
     glfwTerminate();
+
+    //Destroy or Shut it down //
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }
 
 void EngineContext::AddObject(Renderable *object)

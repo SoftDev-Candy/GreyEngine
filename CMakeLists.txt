@@ -31,6 +31,17 @@ add_executable(B_WEngine src/main.cpp
         src/Entity.hpp
         src/Camera.cpp
         src/Camera.hpp
+        external/imgui/imgui.cpp
+        external/imgui/imgui_draw.cpp
+        external/imgui/imgui_widgets.cpp
+        external/imgui/imgui_tables.cpp
+        external/imgui/imgui_impl_glfw.cpp
+        external/imgui/imgui_impl_opengl3.cpp
+        external/imgui/imgui_demo.cpp
+        external/stb/stb_image.h
+        src/Texture.cpp
+        src/Texture.hpp
+
 )
 
 find_package(OpenGL REQUIRED)
@@ -45,7 +56,9 @@ target_include_directories(B_WEngine PRIVATE
         external/glad/include
         external/glfw/include
         external/glm
-)
+        external/imgui
+        external/stb
+    )
 
 #Had an error so basically need to tell the linker its a console app and we are not going to be using winmain() but just main()
 set_target_properties(B_WEngine PROPERTIES WIN32_EXECUTABLE OFF)
