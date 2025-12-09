@@ -19,6 +19,7 @@ Shader(const char* VertexShader , const char* FragmentSrc);
 //make this Shader the active one basically we are using this one here..will call glUseProgram(m_id)//
     void bind()const;
     void setMat4 (const std::string& name ,const glm::mat4& mat);
+    void setInt(const char* texture , int id);
 
 private:
 GLuint m_id; //openGl shader id

@@ -8,9 +8,13 @@
 const char* VertexShaderSource = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec2 aUV;
+out vec2 vUV;
+
 uniform mat4 MVP; //allows us to send model X view X projection from C++
 
 void main() {
+vUV = aUV;
     gl_Position =MVP* vec4(aPos, 1.0);
 }
 )";
@@ -18,7 +22,12 @@ void main() {
 const char* FragmentShaderSource = R"(
 #version 330 core
 out vec4 FragColor;
+
+in vec2 vUV;
+
+uniform sampler2D uTexture;
+
 void main() {
-    FragColor = vec4(1.0, 0.5, 0.2, 1.0);
+    FragColor = texture(uTexture,vUV);
 }
 )";

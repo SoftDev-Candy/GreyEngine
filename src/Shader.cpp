@@ -43,6 +43,11 @@ void Shader::setMat4(const std::string &name, const glm::mat4& mat)
     glUniformMatrix4fv(loc,1,GL_FALSE ,glm::value_ptr(mat));
 }
 
+void Shader::setInt(const char *texture, int id)
+{
+    glUniform1i(glGetUniformLocation(m_id ,texture),id);
+}
+
 GLuint Shader::CompileSingle(GLenum type, const char *src)
 {
     //1.Create an empty shader object GLuint is unsigned int in OpenGl terms//

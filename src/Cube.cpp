@@ -10,15 +10,15 @@ Cube::Cube() : shader(VertexShaderSource,FragmentShaderSource)
 {
     float vertices[] =
     {
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,0.0f,0.0f,
+         0.5f, -0.5f, -0.5f,1.0f,0.0f,
+         0.5f, 0.5f, -0.5f,1.0f,1.0f,
+        -0.5f, 0.5f, -0.5f,0.0f,1.0f,
 
-        -0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f
+        -0.5f, -0.5f, 0.5f,0.0f,0.0f,
+        0.5f, -0.5f, 0.5f,1.0f,0.0f,
+        0.5f, 0.5f, 0.5f,1.0f,1.0f,
+        -0.5f, 0.5f, 0.5f,0.0f,1.0f
 
     };
 
@@ -52,13 +52,25 @@ Cube::Cube() : shader(VertexShaderSource,FragmentShaderSource)
         3, // 3 components per vertex
         GL_FLOAT, // type
         GL_FALSE, // no normalization
-        3 * sizeof(float), // stride (size of each vertex)
+        5 * sizeof(float), // stride (size of each vertex)
         (void *) 0 // offset (start of buffer)
     );
     glEnableVertexAttribArray(0);
 
+    glVertexAttribPointer(
+      1, // attribute location 1 in shader
+      2, // 2 components per vertex
+      GL_FLOAT, // type
+      GL_FALSE, // no normalization
+      5 * sizeof(float), // stride (size of each vertex)
+      (void *) (3 * sizeof(float)) // offset (start of buffer)
+  );
+    glEnableVertexAttribArray(1);
+
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER,0);
+
+    texture = new Texture("assets/texture.png");
 
 }
 
@@ -91,6 +103,11 @@ Cube::~Cube()
 
     shader.bind();
     shader.setMat4("MVP" ,mvp);
+    //texture Rendering//
+    glActiveTexture(GL_TEXTURE0);
+    texture->Bind(0);
+    shader.setInt("uTexture",0);
+
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES,36,GL_UNSIGNED_INT,0);
 }

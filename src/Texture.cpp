@@ -10,7 +10,7 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-//RAII is very important although could've named it literally anything else ...resource allocation is initailzation...WDUM<???//
+//RAII is very important although could've named it literally anything else ...resource allocation is initialization...WDUM<???//
 Texture::Texture(const char *path)
 {
     int height;
@@ -32,12 +32,12 @@ else if (channels == 4)
 }
     else
     {
-        std::cerr<<"Error in texture handling for colour formats"<<std::endl;
+        std::cerr<<"Error in texture handling for colour formats (Texture.cpp)"<<std::endl;
     }
 
         if(storedata == NULL)
         {
-            std::cerr<<"The data for texture was NULL "<<std::endl;
+            std::cerr<<"The data for texture was NULL (Texture.cpp)"<<std::endl;
         }
 
     //First we generate the texture
@@ -63,6 +63,12 @@ glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(storedata);
+
+}
+
+void Texture::Bind(int Bind_id)
+{
+    glBindTexture(GL_TEXTURE_2D,Bind_id);
 
 }
 

@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include"Renderable.hpp"
 #include "Shader.hpp"
+#include "Texture.hpp"
 
 class Cube :public Renderable
 {
@@ -16,6 +17,8 @@ public:
 
     Cube();//Constructor big man //
     ~Cube();//No so constructor//
+
+    Texture* texture;
 
     void Render(const glm::mat4& mvp)override;
 

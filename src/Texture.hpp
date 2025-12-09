@@ -12,7 +12,7 @@ class Texture
 {
 public:
     Texture(const char* path);
-    void Bind();
+    void Bind(int bind_id);
     GLuint id;
 
     ~Texture();
