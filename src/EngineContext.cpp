@@ -81,6 +81,8 @@ void EngineContext::update()
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
+
+    //TODO - Delete this after you have setup the UI and its colours properly its just there for learning purposes//
     ImGui::ShowDemoWindow();
 
     //Made the movement go up and down , side to side to like a rollercoaster

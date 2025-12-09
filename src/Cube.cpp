@@ -70,7 +70,7 @@ Cube::Cube() : shader(VertexShaderSource,FragmentShaderSource)
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER,0);
 
-    texture = new Texture("assets/texture.png");
+    texture = new Texture("../assets/texture.png");
 
 }
 
@@ -105,7 +105,7 @@ Cube::~Cube()
     shader.setMat4("MVP" ,mvp);
     //texture Rendering//
     glActiveTexture(GL_TEXTURE0);
-    texture->Bind(0);
+    texture->Bind();
     shader.setInt("uTexture",0);
 
     glBindVertexArray(VAO);

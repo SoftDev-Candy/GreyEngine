@@ -37,8 +37,14 @@ else if (channels == 4)
 
         if(storedata == NULL)
         {
-            std::cerr<<"The data for texture was NULL (Texture.cpp)"<<std::endl;
+            std::cerr<<"The data for texture was NULL (Texture.cpp)"<<path<<std::endl;
         }
+
+    else
+    {
+        std::cout<<"Loaded Texture "<<width <<" x "<<height<<"Channels "<<channels<<std::endl;
+    }
+
 
     //First we generate the texture
     glGenTextures(1,&id);
@@ -66,9 +72,9 @@ glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
 }
 
-void Texture::Bind(int Bind_id)
+void Texture::Bind()
 {
-    glBindTexture(GL_TEXTURE_2D,Bind_id);
+    glBindTexture(GL_TEXTURE_2D,id);
 
 }
 
