@@ -4,6 +4,7 @@
 
 #ifndef B_WENGINE_SCENE_HPP
 #define B_WENGINE_SCENE_HPP
+#include <string>
 #include <vector>
 #include "Entity.hpp"
 #include"Transform.hpp"
@@ -14,12 +15,15 @@ struct SceneObject
     Entity entity;
     Transform transform;
     Renderable* renderable = nullptr;
+    std::string name = "Unnamed";
+
 };
 
 
 class Scene
 {
 public:
+
 Entity CreateObject(Renderable* r)
 {
         Entity e {nextId++ };
@@ -36,9 +40,10 @@ Entity CreateObject(Renderable* r)
     }
 
 private:
+
     std::vector<SceneObject>objects;
     EntityID nextId = 1;
-};
 
+};
 
 #endif //B_WENGINE_SCENE_HPP

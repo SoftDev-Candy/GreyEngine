@@ -6,6 +6,7 @@
 #include"../external/imgui/imgui.h"
 #include"../external/imgui/imgui_impl_glfw.h"
 #include"../external/imgui/imgui_impl_opengl3.h"
+#include "../external/imgui/imgui_stdlib.h"
 
 static void framebuffer_size_callback(GLFWwindow* , int w , int h)
 {
@@ -64,8 +65,6 @@ ImGui::StyleColorsLight();
     ImGui_ImplGlfw_InitForOpenGL(window,true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-
-
 }
 
 bool EngineContext::ShouldClose()
@@ -85,7 +84,8 @@ void EngineContext::update()
     //TODO - Delete this after you have setup the UI and its colours properly its just there for learning purposes//
     ImGui::ShowDemoWindow();
 
-    //Made the movement go up and down , side to side to like a rollercoaster
+    //Made the movement go up and down , side to side to like a rollercoaster//
+    //TODO - Create a control manager class and add this there//
     if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
     {
         camera.position.z -= 0.05f;
@@ -116,24 +116,51 @@ void EngineContext::update()
         camera.position.y += 0.05f;
     }
 
-    float time = static_cast<float>(glfwGetTime());
-    auto& obj = scene.GetObjects()[0];
-    obj.transform.rotation.y = time;
+ImGui::Begin("Scene Hierarchy");
 
-//Grab my object and add it to the UI so I can manipulate it //
+    auto& objects = scene.GetObjects();
+    for (int i =0;i<objects.size();i++)
+    {
+    bool clicked = ImGui::Selectable(objects[i].name.c_str(),selectedIndex == i);
 
-    ImGui::Begin("Object Transform");
-    //This is how we change the position
-    ImGui::DragFloat3("Position",&obj.transform.position.x);
+        if (clicked)
+        {
+            selectedIndex = i;
+        }
 
-    //This is how we change the Rotation
-    ImGui::DragFloat3("Rotation",&obj.transform.rotation.x);
-
-    //This is how we scale it yo//
-    ImGui::DragFloat3("Scale",&obj.transform.scale.x);
-
-
+    }
     ImGui::End();
+
+
+    float time = static_cast<float>(glfwGetTime());
+    if (selectedIndex != -1)
+    {
+        auto& obj = scene.GetObjects()[selectedIndex];
+        obj.transform.rotation.y = time;
+        //Fixme: Changing name Context here need to change this later to something else//
+        char changedbBuffer[62] = "";
+        strcpy(changedbBuffer , obj.name.c_str());
+
+         bool changedName = ImGui::InputText("Name", changedbBuffer, sizeof(changedbBuffer));
+        if(changedName)
+        {
+            obj.name = changedbBuffer;
+        }
+
+        //Grab my object and add it to the UI, so I can manipulate it //
+        ImGui::Begin("Object Transform");
+        //This is how we change the position
+        ImGui::DragFloat3("Position",&obj.transform.position.x);
+
+        //This is how we change the Rotation
+        ImGui::DragFloat3("Rotation",&obj.transform.rotation.x);
+
+        //This is how we scale it yo//
+        ImGui::DragFloat3("Scale",&obj.transform.scale.x);
+
+        ImGui::End();
+    }
+
 }
 
 void EngineContext::Render()

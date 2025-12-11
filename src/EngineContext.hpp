@@ -33,6 +33,7 @@ private:
     GLFWwindow* window;
     Scene scene;
     Renderer renderer;
+    int selectedIndex = -1;
 
 };
 
