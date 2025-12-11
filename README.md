@@ -54,3 +54,8 @@ computes model matrix
 ✔️ GLAD + GLFW + GLM correctly installed
 ✔️ Depth test on
 ✔️ A rotating cube already works
+
+
+## Current Progress 
+
+
