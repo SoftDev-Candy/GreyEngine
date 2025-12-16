@@ -7,14 +7,14 @@
 #include <string>
 #include <vector>
 #include "Entity.hpp"
+#include "MeshComponent.hpp"
 #include"Transform.hpp"
-#include "Renderable.hpp"
 
 struct SceneObject
 {
     Entity entity;
     Transform transform;
-    Renderable* renderable = nullptr;
+    MeshComponent mesh;
     std::string name = "Unnamed";
 
 };
@@ -24,12 +24,11 @@ class Scene
 {
 public:
 
-Entity CreateObject(Renderable* r)
+Entity CreateObject()
 {
         Entity e {nextId++ };
         SceneObject obj;
         obj.entity = e;
-        obj.renderable = r;
         objects.push_back(obj);
         return e;
 }

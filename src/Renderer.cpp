@@ -3,6 +3,9 @@
 //
 
 #include "Renderer.hpp"
+
+#include <iostream>
+
 #include "Scene.hpp"
 #include <glad/glad.h>
 
@@ -19,12 +22,39 @@ void Renderer::RenderScene(Scene &scene , Camera& cam)
 
     for (auto& obj:scene.GetObjects())
     {
-
-        if (obj.renderable)
+        if (obj.mesh.mesh ==nullptr)
         {
+            continue;
+        }
+        else
+        {
+            //1.Compute Model
             glm::mat4 model = obj.transform.GetMatrix();
+
+            //2.Compute MVP
             glm::mat4 mvp = projection * view * model;
-            obj.renderable->Render(mvp);
+            //bind shader with MVP
+            if (shaderptr == nullptr)
+            {
+                std::cout<<"The activeShader is null ERROR in File Renderer.cpp (RenderScene)\n";
+                continue;
+            }
+           else {
+                shaderptr->bind();
+                shaderptr->setMat4("MVP" ,mvp);
+            }
+            //texture Rendering//
+            //FIXME- This is materialState dunno what that means but need to move it out from here when i Do//
+            shaderptr->setInt("uTexture",0);
+
+            obj.mesh.mesh->Bind();
+            glDrawElements(GL_TRIANGLES,obj.mesh.mesh->GetIndexCount(),GL_UNSIGNED_INT,0);
+
         }
     }
+}
+
+void Renderer::SetActiveShader(Shader *s)
+{
+shaderptr = s ;
 }

@@ -11,6 +11,7 @@
 #include "Scene.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
+#include "ShaderManager.hpp"
 
 class EngineContext
 {
@@ -18,13 +19,15 @@ class EngineContext
 public:
 //Creating Camera object
 Camera camera;
-
+    Entity CreateCube(const std::string& cubename);
     void init();
     bool ShouldClose();
     void update();
     void Render();
     void Terminate();
-    void AddObject(Renderable* object);
+    void AddObject();
+    Mesh* cubeMesh;
+    ShaderManager shadermanager;
 
 std::vector<SceneObject>& Getobject() ;
 

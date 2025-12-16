@@ -41,6 +41,12 @@ add_executable(B_WEngine src/main.cpp
         external/stb/stb_image.h
         src/Texture.cpp
         src/Texture.hpp
+        src/Mesh.cpp
+        src/Mesh.hpp
+        src/MeshComponent.cpp
+        src/MeshComponent.hpp
+        src/ShaderManager.cpp
+        src/ShaderManager.hpp
 
 )
 

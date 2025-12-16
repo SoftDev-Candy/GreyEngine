@@ -17,8 +17,8 @@ EngineObject.init();
     //Adding cube objects //
     //FIXME: Make it so that we dont have to do this manually everytime//
 
-    EngineObject.AddObject(new Cube());
-    EngineObject.AddObject(new Cube());
+    EngineObject.CreateCube("Cube 1");
+    EngineObject.CreateCube("Cube 2");
 
     auto& obj1 = EngineObject.Getobject()[0];
     auto& obj2 = EngineObject.Getobject()[1];
