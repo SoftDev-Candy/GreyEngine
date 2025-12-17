@@ -49,6 +49,8 @@ add_executable(B_WEngine src/main.cpp
         src/ShaderManager.hpp
         src/ui/EditorStyle.cpp
         src/ui/EditorStyle.hpp
+        src/ui/EditorWidgets.cpp
+        src/ui/EditorWidgets.hpp
 
 )
 

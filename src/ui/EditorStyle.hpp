@@ -5,7 +5,7 @@
 #ifndef B_WENGINE_EDITORSTYLE_HPP
 #define B_WENGINE_EDITORSTYLE_HPP
 
-namespace EditorStyle{void apply();}
+namespace EditorStyle{void Apply();}
 
 class Editor
 {

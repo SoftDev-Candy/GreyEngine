@@ -8,6 +8,8 @@
 #include"../external/imgui/imgui.h"
 #include"../external/imgui/imgui_impl_glfw.h"
 #include"../external/imgui/imgui_impl_opengl3.h"
+#include "ui/EditorStyle.hpp"
+#include "ui/EditorWidgets.hpp"
 
 
 static void framebuffer_size_callback(GLFWwindow* , int w , int h)
@@ -69,13 +71,12 @@ void EngineContext::init()
     //THIS IS IT FINALLY THE COSMIC CREATION OF THE MOTHERLAND STARDENBURDENHARDENBART DEAR IMGUI//
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    EditorStyle::Apply();
     ImGuiIO& io = ImGui::GetIO();
     //Enabling Docking here
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; //Enabling Controller dont need it saw it sounds cool might keep it for now;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; //Enabling Keyboard
-
-ImGui::StyleColorsLight();
 
     ImGui_ImplGlfw_InitForOpenGL(window,true);
     ImGui_ImplOpenGL3_Init("#version 330");
@@ -123,6 +124,8 @@ bool EngineContext::ShouldClose()
 
 void EngineContext::update()
 {
+
+
     glfwPollEvents();
 
     //Start the frame for imgui
@@ -130,8 +133,7 @@ void EngineContext::update()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
 
-    //TODO - Delete this after you have setup the UI and its colours properly its just there for learning purposes//
-    ImGui::ShowDemoWindow();
+    UI::BeginDockspaceAndTopBar();
 
     //Made the movement go up and down , side to side to like a rollercoaster//
     //TODO - Create a control manager class and add this there//
@@ -180,42 +182,89 @@ ImGui::Begin("Scene Hierarchy");
     }
     ImGui::End();
     ImGui::Begin("Camera FOV");
-    ImGui::SliderFloat("FOV",&camera.fov, 30.0f, 120.0f, "ratio = %.1f");
+    UI::SliderFloatMolten("FOV", &camera.fov, 30.0f, 120.0f);
     ImGui::End();
 
 
 
 
-    float time = static_cast<float>(glfwGetTime());
     if (selectedIndex != -1)
     {
         auto& obj = scene.GetObjects()[selectedIndex];
-        obj.transform.rotation.y = time;
-
 
         //Grab my object and add it to the UI, so I can manipulate it //
         ImGui::Begin("Inspector Panel");
 
-        //Fixme: Changing name Context here need to change this later to something else//
-        char changedBuffer[62] = "";
-        strcpy(changedBuffer , obj.name.c_str());
+if (ImGui::BeginTable("##InspectorForm", 2,
+    ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_PadOuterX ))
+{
+    ImGui::TableSetupColumn("##Label", ImGuiTableColumnFlags_WidthFixed, 90.0f);
+    ImGui::TableSetupColumn("##Value", ImGuiTableColumnFlags_WidthStretch);
 
-        bool changedName = ImGui::InputText("Name", changedBuffer, sizeof(changedBuffer));
-        if(changedName)
-        {
-            obj.name = changedBuffer;
-        }
+    // ---------------------------
+    // Name (Molten input)
+    // ---------------------------
+    UI::BeginMoltenInput();
+s
+    //Fixme: Changing name Context here need to change this later to something else//
+    char changedBuffer[62] = "";
+    strcpy(changedBuffer , obj.name.c_str());
 
-        //This is how we change the position
-        ImGui::DragFloat3("Position",&obj.transform.position.x);
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(0);
+    ImGui::AlignTextToFramePadding();
+    ImGui::TextUnformatted("Name");
 
-        //This is how we change the Rotation
-        ImGui::DragFloat3("Rotation",&obj.transform.rotation.x);
+    ImGui::TableSetColumnIndex(1);
+    ImGui::SetNextItemWidth(-FLT_MIN);
 
-        //This is how we scale it yo//
-        ImGui::DragFloat3("Scale",&obj.transform.scale.x);
+    bool changedName = ImGui::InputText("##Name", changedBuffer, sizeof(changedBuffer));
+    if(changedName)
+    {
+        obj.name = changedBuffer;
+    }
 
-        ImGui::End();
+    UI::EndMoltenInput();
+
+    // ---------------------------
+    // Transform (Website-style boxes)
+    // ---------------------------
+    UI::BeginTransformStyle();
+
+    //This is how we change the position
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(0);
+    ImGui::AlignTextToFramePadding();
+    ImGui::TextUnformatted("Position");
+    ImGui::TableSetColumnIndex(1);
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    ImGui::DragFloat3("##Position", &obj.transform.position.x, 0.01f);
+
+    //This is how we change the Rotation
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(0);
+    ImGui::AlignTextToFramePadding();
+    ImGui::TextUnformatted("Rotation");
+    ImGui::TableSetColumnIndex(1);
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    ImGui::DragFloat3("##Rotation", &obj.transform.rotation.x, 0.01f);
+
+    //This is how we scale it yo//
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(0);
+    ImGui::AlignTextToFramePadding();
+    ImGui::TextUnformatted("Scale");
+    ImGui::TableSetColumnIndex(1);
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    ImGui::DragFloat3("##Scale", &obj.transform.scale.x, 0.01f);
+
+    UI::EndTransformStyle();
+
+    ImGui::EndTable();
+}
+
+ImGui::End();
+
     }
 
 }
@@ -235,12 +284,12 @@ void EngineContext::Render()
 
 void EngineContext::Terminate()
 {
+
     //Destroy or Shut it down //
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 //Destroy Imgui before window otherwise it can cause various issues later //
-
     glfwDestroyWindow(window);
     glfwTerminate();
 
