@@ -12,6 +12,7 @@
 #include "Camera.hpp"
 #include "Shader.hpp"
 #include "ShaderManager.hpp"
+#include "ui/UIManager.hpp"
 
 class EngineContext
 {
@@ -28,6 +29,7 @@ Camera camera;
     void AddObject();
     Mesh* cubeMesh;
     ShaderManager shadermanager;
+    UIManager ui;
 
 std::vector<SceneObject>& Getobject() ;
 

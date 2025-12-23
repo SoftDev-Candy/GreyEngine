@@ -14,17 +14,21 @@
 
 static void framebuffer_size_callback(GLFWwindow* , int w , int h)
 {
+
     glViewport(0,0,w,h);
+
 }
 
 Entity EngineContext::CreateCube(const std::string &cubename)
 {
+
     scene.CreateObject();
     auto& obj = scene.GetObjects().back();
     obj.mesh.mesh = cubeMesh;
     obj.name = cubename;
 
     return obj.entity;
+
 }
 
 void EngineContext::init()
@@ -58,14 +62,16 @@ void EngineContext::init()
     //Initialize Glad
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
+
         std::cerr<<"Failed to initialize GLAD"<<std::endl;
         return ;
+
     }
 
-    glViewport(2,4,1000,800); //This is the viewport or the drawable size area
+    glViewport(2,4,920,800); //This is the viewport or the drawable size area
 
-    //Depth test dont worry about it until it throws error....uhh then get a panic attack and! worry//
-    //from the future - Dont do the second part ⬆️
+    //Depth test don't worry about it until it throws error....uhh then get a panic attack and! worry//
+    //from the future - Don't do the second part ⬆️
     glEnable(GL_DEPTH_TEST);
 
     //THIS IS IT FINALLY THE COSMIC CREATION OF THE MOTHERLAND STARDENBURDENHARDENBART DEAR IMGUI//
@@ -75,7 +81,7 @@ void EngineContext::init()
     ImGuiIO& io = ImGui::GetIO();
     //Enabling Docking here
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; //Enabling Controller dont need it saw it sounds cool might keep it for now;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; //Enabling Controller don't need it saw it sounds cool might keep it for now;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; //Enabling Keyboard
 
     ImGui_ImplGlfw_InitForOpenGL(window,true);
@@ -84,6 +90,7 @@ void EngineContext::init()
 // TODO: After mesh starts working need to make a mesh manager for all the default objects //
     float vertices[] =
     {
+
         -0.5f, -0.5f, -0.5f,0.0f,0.0f,
          0.5f, -0.5f, -0.5f,1.0f,0.0f,
          0.5f, 0.5f, -0.5f,1.0f,1.0f,
@@ -110,7 +117,7 @@ void EngineContext::init()
     //is going to understand this jargon //
     cubeMesh= new Mesh(vertices, 40, indices,36);
 
-    //FIXME - NEED A MESH MANAGET TO DELETE THIS //
+    //FIXME - NEED A MESH MANAGER TO DELETE THIS //
 
     shadermanager.LoadShader("Default",VertexShaderSource,FragmentShaderSource);
     renderer.SetActiveShader(shadermanager.GetShader("Default"));
@@ -125,9 +132,7 @@ bool EngineContext::ShouldClose()
 void EngineContext::update()
 {
 
-
-    glfwPollEvents();
-
+     glfwPollEvents();
     //Start the frame for imgui
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
@@ -166,103 +171,7 @@ void EngineContext::update()
     {
         camera.position.y += 0.05f;
     }
-
-ImGui::Begin("Scene Hierarchy");
-
-    auto& objects = scene.GetObjects();
-    for (int i =0;i<objects.size();i++)
-    {
-    bool clicked = ImGui::Selectable(objects[i].name.c_str(),selectedIndex == i);
-
-        if (clicked)
-        {
-            selectedIndex = i;
-        }
-
-    }
-    ImGui::End();
-    ImGui::Begin("Camera FOV");
-    UI::SliderFloatMolten("FOV", &camera.fov, 30.0f, 120.0f);
-    ImGui::End();
-
-    if (selectedIndex != -1)
-    {
-        auto& obj = scene.GetObjects()[selectedIndex];
-
-        //Grab my object and add it to the UI, so I can manipulate it //
-        ImGui::Begin("Inspector Panel");
-
-if (ImGui::BeginTable("##InspectorForm", 2,
-    ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_PadOuterX ))
-{
-    ImGui::TableSetupColumn("##Label", ImGuiTableColumnFlags_WidthFixed, 90.0f);
-    ImGui::TableSetupColumn("##Value", ImGuiTableColumnFlags_WidthStretch);
-
-    // ---------------------------
-    // Name (Molten input)
-    // ---------------------------
-    UI::BeginMoltenInput();
-s
-    //Fixme: Changing name Context here need to change this later to something else//
-    char changedBuffer[62] = "";
-    strcpy(changedBuffer , obj.name.c_str());
-
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::AlignTextToFramePadding();
-    ImGui::TextUnformatted("Name");
-
-    ImGui::TableSetColumnIndex(1);
-    ImGui::SetNextItemWidth(-FLT_MIN);
-
-    bool changedName = ImGui::InputText("##Name", changedBuffer, sizeof(changedBuffer));
-    if(changedName)
-    {
-        obj.name = changedBuffer;
-    }
-
-    UI::EndMoltenInput();
-
-    // ---------------------------
-    // Transform (Website-style boxes)
-    // ---------------------------
-    UI::BeginTransformStyle();
-
-    //This is how we change the position
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::AlignTextToFramePadding();
-    ImGui::TextUnformatted("Position");
-    ImGui::TableSetColumnIndex(1);
-    ImGui::SetNextItemWidth(-FLT_MIN);
-    ImGui::DragFloat3("##Position", &obj.transform.position.x, 0.01f);
-
-    //This is how we change the Rotation
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::AlignTextToFramePadding();
-    ImGui::TextUnformatted("Rotation");
-    ImGui::TableSetColumnIndex(1);
-    ImGui::SetNextItemWidth(-FLT_MIN);
-    ImGui::DragFloat3("##Rotation", &obj.transform.rotation.x, 0.01f);
-
-    //This is how we scale it yo//
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::AlignTextToFramePadding();
-    ImGui::TextUnformatted("Scale");
-    ImGui::TableSetColumnIndex(1);
-    ImGui::SetNextItemWidth(-FLT_MIN);
-    ImGui::DragFloat3("##Scale", &obj.transform.scale.x, 0.01f);
-
-    UI::EndTransformStyle();
-
-    ImGui::EndTable();
-}
-
-ImGui::End();
-
-    }
+    ui.Draw(scene,camera,selectedIndex,[this](const std::string& name){return CreateCube("Cube");});
 
 }
 
