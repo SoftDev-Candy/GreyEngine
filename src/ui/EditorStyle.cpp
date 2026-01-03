@@ -108,7 +108,6 @@ void EditorStyle::Apply()
     styledColor[ImGuiCol_NavWindowingHighlight] = ImVec4(lava1.x, lava1.y, lava1.z, 0.75f); // tweak 0.45..0.90
     styledColor[ImGuiCol_NavWindowingDimBg]     = ImVec4(0,0,0,0.60f);
 
-
     // Docking background
     styledColor[ImGuiCol_DockingEmptyBg] = bg;
 

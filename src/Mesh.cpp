@@ -21,7 +21,7 @@ Mesh::Mesh(float *vertices, size_t vertSize, unsigned int *indices, size_t index
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,indexCount*sizeof(unsigned int),indices,GL_STATIC_DRAW);
 
-    //lets openGl how to read to our data//
+    //lets openGl know how to read to our data//
     glVertexAttribPointer(
         0, // attribute location 0 in shader
         3, // 3 components per vertex
