@@ -4,6 +4,7 @@
 
 #include "EngineContext.hpp"
 
+#include "ObjLoader.hpp"
 #include "ShaderSource.hpp"
 #include"../external/imgui/imgui.h"
 #include"../external/imgui/imgui_impl_glfw.h"
@@ -33,6 +34,9 @@ Entity EngineContext::CreateCube(const std::string &cubename)
 
 void EngineContext::init()
 {
+
+    LoadOBJ("../assets/models/Cube.obj");
+
     //Initialize GLFW
 
     if(!glfwInit())

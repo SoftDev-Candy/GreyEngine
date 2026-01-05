@@ -55,6 +55,8 @@ add_executable(B_WEngine src/main.cpp
         src/ui/UIManager.hpp
         src/MeshManager.cpp
         src/MeshManager.hpp
+        src/ObjLoader.cpp
+        src/ObjLoader.hpp
 
 )
 
