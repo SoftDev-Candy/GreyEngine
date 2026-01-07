@@ -3,9 +3,8 @@
 //
 
 #include "Renderer.hpp"
-
+#include "Texture.hpp"
 #include <iostream>
-
 #include "Scene.hpp"
 #include <glad/glad.h>
 
@@ -44,11 +43,17 @@ void Renderer::RenderScene(Scene &scene , Camera& cam)
                 shaderptr->setMat4("MVP" ,mvp);
             }
             //texture Rendering//
+            glActiveTexture(GL_TEXTURE0);
+
+            if (textureptr != nullptr)
+            {
+                textureptr->Bind();
+            }
             //FIXME- This is materialState dunno what that means but need to move it out from here when i Do//
-            shaderptr->setInt("uTexture",0);
+            shaderptr->setInt("uTexture", 0);
 
             obj.mesh.mesh->Bind();
-            glDrawElements(GL_TRIANGLES,obj.mesh.mesh->GetIndexCount(),GL_UNSIGNED_INT,0);
+            glDrawElements(GL_TRIANGLES, obj.mesh.mesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
 
         }
     }
@@ -56,5 +61,10 @@ void Renderer::RenderScene(Scene &scene , Camera& cam)
 
 void Renderer::SetActiveShader(Shader *s)
 {
-shaderptr = s ;
+    shaderptr = s ;
+}
+
+void Renderer::SetActiveTexture(Texture *t)
+{
+    textureptr = t;
 }

@@ -14,6 +14,7 @@
 #include "Shader.hpp"
 #include "ShaderManager.hpp"
 #include "ui/UIManager.hpp"
+#include "Texture.hpp"
 
 class EngineContext
 {
@@ -34,6 +35,8 @@ Camera camera;
     ShaderManager shadermanager;
     UIManager ui;
     MeshManager meshmanager;
+    Texture* texture;
+
 
 std::vector<SceneObject>& Getobject() ;
 

@@ -139,6 +139,11 @@ void EngineContext::init()
     shadermanager.LoadShader("Default",VertexShaderSource,FragmentShaderSource);
     renderer.SetActiveShader(shadermanager.GetShader("Default"));
 
+    //TODO: move this into TextureManager later, for now just prove pipeline works//
+    texture = new Texture("../assets/texture.png"); //FIXME: delete later / use unique_ptr later
+    renderer.SetActiveTexture(texture);
+
+
 
     ObjMeshData imported = LoadOBJ("../assets/models/Cube2.obj", false);
 

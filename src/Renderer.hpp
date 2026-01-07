@@ -8,6 +8,8 @@
 #include "Camera.hpp"
 #include "Shader.hpp"
 
+class Texture;
+
 class Renderer
 {
 public:
@@ -15,8 +17,11 @@ public:
     void Begin();
     void RenderScene(Scene& scene , Camera& cam);
     void SetActiveShader(Shader *s) ;
+    void SetActiveTexture(Texture* t); //FIXME: later this becomes per-entity / material system
+
 private:
     Shader* shaderptr = nullptr;
+    Texture* textureptr = nullptr;//TODO--This shall disappear when a material system is in place.//
 
 };
 
